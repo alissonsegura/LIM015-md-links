@@ -1,4 +1,33 @@
 {
   "name": "md-links",
-  "version": "0.1.0"
+  "version": "0.1.0",
+  "description": "## Índice",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alissonsegura/LIM015-md-links.git"
+  },
+  "keywords": [
+    "javascript"
+  ],
+  "author": "Alisson Segura Tarazona",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alissonsegura/LIM015-md-links/issues"
+  },
+  "homepage": "https://github.com/alissonsegura/LIM015-md-links#readme",
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "htmlhint": "^0.15.1",
+    "jest": "^27.2.0"
+  },
+  "dependencies": {
+    "chalk": "^4.1.2"
+  }
 }
