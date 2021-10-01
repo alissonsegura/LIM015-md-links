@@ -1,102 +1,102 @@
 const fs = require('fs');
 const path = require('path');
 
-let links = 0;
-//const direc = '/Users/alissonsegura/Desktop/LIM015-md-links/index.js';
+//let links = 0;
+// const direc = '/Users/alissonsegura/Desktop/LIM015-md-links/index.js';
 
-function mdLinks(path /* , options*/){ 
-  const absolutePath = getPath(path) 
-  const validDir = isaDirectory(path) 
-  const validFile = verifyMdFile(path)
-  if(!validDir && !validFile ){
-    /* validDir and validFile are false returns log and finish it with a return */
-    console.log('path does not exist');
+function countLinks(file) {
+  //links++;
+  // pasar un md y consolear el contenido del md
+  const read = readFile(file)
+  if (read) {
+    console.log(read);
+    //detectar cuantos links (urls)
     return
   }
-  const countLinks = (file) => {
-    links++;
-  }
-  const getFiles = (path) => {
-    return [];
-  }
-  const getTotalLinks = (path) => {
-    const files = readFile(path)
-    files.forEach(file => {
-      const validFile = verifyMdFile(path)
-      if(validFile) {
-        countLinks(file)
-      }
-      const validDir = isaDirectory(path)
-      if(validDir){
-        getTotalLinks(file)
-      }
-  
-    })
-  }
 }
 
-/* function getpath verify if the path is absolute and returns the path when true,
-  if path is relative we call the function relativeToAbsolutePath to convert it to absolute
-  and returns the new path */
-function getPath(path) {
-  let verifyAbsolutPath = absolutePath(path)
-  if(verifyAbsolutPath === true){
-    return path;
-    /*returns absolute path*/
-  }else {
-    let convertingRelativeToAbsolut = relativeToAbsolutePath(path)
-    return convertingRelativeToAbsolut;
-     /*returns relative path convert it to absolut */
+function mdLinks(path /* , options*/) {
+  const absolutePath = getAbsolutePath(path)
+  const validDir = isDirectory(absolutePath)
+  const validFile = verifyMdFile(absolutePath)
+  if (!validDir && !validFile) {
+    /* validDir and validFile are false returns log and finish it with a return */
+    throw new Error
   }
+  if (validFile === true) {
+    const result = countLinks(path)
+    return result
+  }
+  if (validDir === true) {
+    getTotalLinks(path)
+  }
+  // const getFiles = (path) => {
+  //   return [];
+  // }
+
 }
-getPath('/Users/alissonsegura/Desktop/LIM015-md-links/file_system')
+mdLinks('/Users/alissonsegura/Desktop/LIM015-md-links/file_system/')
+/* end of mdLinks */
+
+// getPath('/Users/alissonsegura/Desktop/LIM015-md-links/file_system')
 
 // // verify if a path exists
-function pathExists(path) {
-  return fs.existsSync(path) ? true : false;
+function pathExists(userPath) {
+  return fs.existsSync(userPath) ? true : false;
 }
- pathExists('/Users/alissonsegura/Desktop/LIM015-md-links/file_system/index.js')
+
+// pathExists('/Users/alissonsegura/Desktop/LIM015-md-links/file_system/index.js')
 
 // // verify if its an absolute path, if not it changes to an absolute
-function absolutePath(path) {
-  return path.isAbsolute(path) ? true : false;
+function getAbsolutePath(userPath) {
+  // return path.isAbsolute(userPath) ? true : false;
+  return path.isAbsolute(userPath) ? userPath : path.resolve(userPath)
 }
 
-absolutePath('/Users/alissonsegura/Desktop/LIM015-md-links/file_system/index.js')
-// // convert a relative to absolute path
-function relativeToAbsolutePath(path) {
-  return path.resolve(path);
-}
-relativeToAbsolutePath('/Users/alissonsegura/Desktop/LIM015-md-links/file_system/index.js')
+// relativeToAbsolutePath('/Users/alissonsegura/Desktop/LIM015-md-links/file_system/index.js')
 // // Verify if is a directory or file with fs.statSync().isDirectory() 
-function isaDirectory(path) {
-  return fs.statSync(path).isDirectory() ? true : false;
+function isDirectory(userPath) {
+  return fs.statSync(userPath).isDirectory() ? true : false;
 }
 // //Verify if is a md file with path.extname() 
-function verifyMdFile(path) {
-  return path.extname(path) === '.md' ? true : false;
+function verifyMdFile(userPath) {
+  return path.extname(userPath) === '.md' ? true : false;
 }
 
 // // read directory
-function readDirectory(path) {
-  console.log(path);
-  return fs.readdirSync(path);
+function readDirectory(userPath) {
+  return fs.readdirSync(userPath);
 }
 
-// // read file content
+// read file content
 //readFileSync returns a buffer representation en text of my file(encrypted)
-function readFile(path) {
-  return fs.readFileSync(path).toString();
-  }
+function readFile(userPath) {
+  return fs.readFileSync(userPath).toString();
+}
 
-/*------------ Prueba read direc -------------- */
-// function readDirec (path) {
-//   fs.readdirSync(path).forEach(file => {
-//     console.log(file);
-//   });
-// } 
-//readDirec('../test')
-// /*------------ Prueba read path -------------- */
 
-// let data = fs.readFileSync('data.txt' , 'utf8')
-// console.log(data);
+function getTotalLinks(path) {
+  const files = readDirectory(path)
+  const route = path;
+  files.forEach(file => {
+    const newPath = `${route}${file}`
+    const validFile = verifyMdFile(newPath);
+    if (validFile) {
+      countLinks(newPath);
+    }
+    const validDir = isDirectory(newPath)
+    if (validDir) {
+      getTotalLinks(`${newPath}/`)
+    }
+
+  })
+}
+
+module.exports = {
+  pathExists,
+  getAbsolutePath,
+  isDirectory,
+  verifyMdFile,
+  readDirectory,
+  readFile
+}
