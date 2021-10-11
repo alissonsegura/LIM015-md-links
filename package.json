@@ -29,6 +29,7 @@
     "jest": "^27.2.0"
   },
   "dependencies": {
+    "axios": "^0.22.0",
     "chalk": "^4.1.2"
   }
 }
