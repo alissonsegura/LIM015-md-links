@@ -1,6 +1,4 @@
-// const mdLinks = require('../');
-
-const path = require('../file_system/index.js');
+const path = require('../file_system/path.js');
 // import { pathExists } from '../file_system/index.js';
 //destructuring
 
@@ -23,9 +21,9 @@ describe('absolutePath', () => {
     expect(typeof path.absolutePath).toBe('function');
   })
 
-  // it('Should return absolute path', () => {
-  //   expect(absolutePath('file_system/index.js')).toBe('/Users/alissonsegura/Desktop/LIM015-md-links/file_system/index.js');
-  // })
+  it('Should return absolute path', () => {
+    expect(absolutePath('file_system/index.js')).toBe('/Users/alissonsegura/Desktop/LIM015-md-links/file_system/index.js');
+  })
 })
 
 describe('isDirectory', () => {
