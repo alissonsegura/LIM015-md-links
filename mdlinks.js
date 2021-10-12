@@ -1,9 +1,9 @@
-const { getAbsolutePath, isDirectory, verifyMdFile } = require('./file_system/path.js')
+const { getAbsolutePath, isDirectory, verifyMdFile } = require('./path.js')
 
-const { countLinks, getTotalLinks, } = require('./file_system/index.js')
+const { countLinks, getTotalLinks, } = require('./index.js')
 
 const axios = require('axios').default;
-// Axios is a Javascript library used to make HTTP requests from node.js
+/* Axios is a Javascript library used to make HTTP requests from node.js */
 
 const checkStatusCode = (url) => {
     return new Promise((resolve) => {
@@ -56,14 +56,14 @@ const mdLinks = (path, options) => {
             fileLinks = getTotalLinks(path)
         }
 
-        // if user wants to get ONLY the stats 
+        /*  if user wants to get ONLY the stats */
         if (options.stats && !options.validate) {
             resolve(calculateStats(fileLinks))
         }
 
         const filePromises = fileLinks.map(file => {
             return checkStatusCode(file.href)
-            //returns a promise
+            /* returns a promise*/
         })
 
         Promise.all(filePromises)
@@ -92,14 +92,6 @@ const mdLinks = (path, options) => {
             })
     })
 }
-
-
-mdLinks('/Users/alissonsegura/Desktop/LIM015-md-links/file_system/lib/test.md', { stats: true, validate: true })
-    .then(response => {
-        console.log(response);
-    }).catch(error => {
-        console.log(error.message);
-    })
 
 const calculateBrokenLinks = (statusArray) => {
     const errors = ['NOT FOUND', 'FAIL']

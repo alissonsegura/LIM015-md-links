@@ -21,6 +21,7 @@ const regexValidation = (fileContent, file) => {
     const title = item.match(regexTitle)
     const text = removeCharacters(title[0], '[', ']');
     /* removes [] in the text found in a file*/
+
     return {
       href,
       text,
@@ -48,21 +49,6 @@ const countLinks = (file) => {
   return linksInFile;
 }
 
-// const calculateStats = (links) => {
-//   const totalLinks = links.length;
-//   const arrayOfLinks = links.map(link => link.href)
-//   const uniqueLinks = [...new Set(arrayOfLinks)]
-//   /* Remove duplicate elements from the array*/
-//   return `Total : ${totalLinks} , Unique : ${uniqueLinks.length}`
-// };
-
-/* end of mdLinks */
-
-// const calculateBrokenLinks = (statusArray) => {
-//   const brokenLinks = statusArray.filter(link => link.statusMessage === 'FAIL')
-//   return `Broken : ${brokenLinks.length}`
-// }
-
 const getTotalLinks = (path) => {
   const route = path /* directory path*/
   const files = readDirectory(path)
@@ -86,32 +72,7 @@ const getTotalLinks = (path) => {
   return links;
 }
 
-// const checkStatusCode = (url) => {
-//   return new Promise((resolve) => {
-//     axios.get(url)
-//       .then(response => {
-//         if (response.status >= 200 && response.status < 400) {
-//           resolve({
-//             statusCode: response.status,
-//             statusMessage: response.statusText
-//           })
-//         }
-//         resolve({
-//           statusMessage: 'FAIL',
-//           statusCode: response.status,
-//         });
-//       })
-//       .catch(err => {
-//         resolve({
-//           statusMessage: 'NOT FOUND',
-//           statusCode: err.response.status,
-//           /*control the error*/
-//         })
-//       });
-//   })
-
-// }
-
+// getTotalLinks('/Users/alissonsegura/Desktop/LIM015-md-links/file_system/')
 module.exports = {
   getTotalLinks,
   countLinks
